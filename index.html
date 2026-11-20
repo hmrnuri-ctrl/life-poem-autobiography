@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>나의 인생시 자서전</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* Layout: 원고지(manuscript paper) motif. Single column workbook, sticky step bar, vertical life timeline. */
+:root{
+  --paper:#F7F9F6;
+  --surface:#FFFFFF;
+  --ink:#1D2A24;
+  --muted:#5D6B64;
+  --line:#D5E0D9;
+  --grid:#A9C9B6;
+  --accent:#2C6A4D;
+  --accent-ink:#FFFFFF;
+  --accent-soft:#E3EFE8;
+  --mark:#E8A93A;
+  --mark-soft:#FBF0D9;
+  --danger:#B3402F;
+  --danger-soft:#F8E4E0;
+  --font-display:"Gowun Batang","Nanum Myeongjo","Batang",serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#141A17;--surface:#1C2420;--ink:#E6EEE9;--muted:#9DAEA5;--line:#2F3B35;--grid:#3D5A4A;
+  --accent:#6FC197;--accent-ink:#0F1A14;--accent-soft:#213229;--mark:#E8B65A;--mark-soft:#3A3020;
+  --danger:#F08C7A;--danger-soft:#3A2420;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#141A17;--surface:#1C2420;--ink:#E6EEE9;--muted:#9DAEA5;--line:#2F3B35;--grid:#3D5A4A;
+  --accent:#6FC197;--accent-ink:#0F1A14;--accent-soft:#213229;--mark:#E8B65A;--mark-soft:#3A3020;
+  --danger:#F08C7A;--danger-soft:#3A2420;color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{color-scheme:light}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;padding-block:24px 64px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:24px}
+h3{font-size:18px}
+p{margin:0}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:600}
+.stack{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grow{flex:1 1 auto;min-width:0}
+
+button,.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  padding:10px 18px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button:hover,.btn:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover{filter:brightness(1.08)}
+button.danger{color:var(--danger);border-color:var(--danger)}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted);padding:8px 10px}
+button:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+
+label.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.hint{font-size:13px;color:var(--muted)}
+input[type=text],input[type=password],input[type=number],textarea,select{
+  font:inherit;width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:10px 12px}
+textarea{min-height:110px;resize:vertical;line-height:1.7}
+input:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.notice{border-radius:8px;padding:12px 14px;font-size:14px;background:var(--mark-soft);border:1px solid var(--mark)}
+.notice.err{background:var(--danger-soft);border-color:var(--danger)}
+
+/* entry */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;padding-block:24px}
+.hero > *{min-width:0}
+.manuscript{background:
+  linear-gradient(var(--grid) 1px,transparent 1px) 0 0/28px 28px,
+  linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/28px 28px;
+  background-color:var(--surface);border:2px solid var(--grid);border-radius:4px;padding:14px;
+  font-family:var(--font-display);font-size:22px;letter-spacing:9px;line-height:28px;min-height:196px;color:var(--ink)}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.flow div{border-top:2px solid var(--accent);padding-top:8px;font-size:13px}
+.flow b{display:block;font-family:var(--font-display);font-size:15px}
+@media (max-width:720px){.hero{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}}
+
+/* stepper */
+.stepbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);padding-block:10px;border-bottom:1px solid var(--line);margin-bottom:22px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.stepbar .who{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.steps{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.steps button{flex:1 0 auto;padding:8px 12px;font-size:13px;font-weight:500;border-radius:999px;white-space:nowrap}
+.steps button .n{font-variant-numeric:tabular-nums;font-weight:700;margin-right:2px;color:var(--accent)}
+.steps button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.steps button.on .n{color:var(--accent-ink)}
+.steps button.done{border-color:var(--grid)}
+.saved{font-size:12px;color:var(--muted)}
+
+/* poem list */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:13px;padding:5px 12px;border-radius:999px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.poems{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.poem{position:relative;text-align:left;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:var(--r);font-weight:400;align-items:stretch}
+.poem .t{font-family:var(--font-display);font-size:19px;font-weight:700}
+.poem .a{font-size:13px;color:var(--muted)}
+.poem .d{font-size:14px}
+.poem .tag{align-self:flex-start;font-size:11px;letter-spacing:.04em;padding:2px 8px;border-radius:4px;background:var(--accent-soft);color:var(--accent);font-weight:600}
+.poem.sel{border:2px solid var(--accent);background:var(--accent-soft)}
+.poem.sel::after{content:"나의 인생시";position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;background:var(--accent);color:var(--accent-ink);padding:2px 8px;border-radius:4px}
+
+/* chosen poem card */
+.mypoem{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 18px;border-left:4px solid var(--mark);background:var(--mark-soft);border-radius:0 8px 8px 0}
+.mypoem .t{font-family:var(--font-display);font-size:20px;font-weight:700}
+.quote{font-family:var(--font-display);font-size:17px;white-space:pre-wrap;line-height:1.9}
+
+/* timeline */
+.timeline{position:relative;display:flex;flex-direction:column;gap:18px;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--grid)}
+.stage{position:relative}
+.stage::before{content:"";position:absolute;left:-25px;top:26px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.stage.future::before{border-style:dashed;border-color:var(--mark)}
+.stage .age{font-variant-numeric:tabular-nums;font-size:13px;font-weight:700;color:var(--accent)}
+.stage.future .age{color:var(--mark)}
+.stage ul{margin:4px 0 0;padding-left:18px;font-size:14px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2 > *{min-width:0}
+@media (max-width:600px){.grid2{grid-template-columns:1fr}}
+
+.roles{display:flex;flex-wrap:wrap;gap:6px}
+.roles label{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer;background:var(--surface)}
+.roles input{accent-color:var(--accent)}
+
+/* essay */
+.essay-area{min-height:420px;font-family:var(--font-display);font-size:17px;line-height:2;
+  background-image:linear-gradient(transparent calc(2em - 1px),var(--line) 1px);background-size:100% 2em;background-attachment:local;padding-top:6px}
+.counter{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.counter b{color:var(--ink)}
+details.notes{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+details.notes summary{cursor:pointer;padding:12px 16px;font-weight:600}
+details.notes .body{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+details.notes .body div{white-space:pre-wrap;min-width:0;overflow-wrap:anywhere}
+details.notes .body b{display:block;font-size:12px;color:var(--accent)}
+
+.navrow{display:flex;justify-content:space-between;gap:12px;margin-top:24px;flex-wrap:wrap}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(10,20,15,.45);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.dialog{background:var(--surface);border-radius:12px;max-width:460px;width:100%;padding:22px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line)}
+
+/* admin */
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{border:1px solid var(--line);border-radius:8px;padding:10px 16px;background:var(--surface)}
+.stat .v{font-family:var(--font-display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums}
+.stat .k{font-size:12px;color:var(--muted)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--paper)}
+td.num{font-variant-numeric:tabular-nums}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--accent-soft)}
+.bar{display:flex;align-items:center;gap:8px;font-size:13px}
+.bar span.b{height:8px;border-radius:4px;background:var(--accent);display:inline-block}
+.detail{display:flex;flex-direction:column;gap:18px}
+.detail .sec{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:8px}
+.detail .txt{white-space:pre-wrap;overflow-wrap:anywhere}
+.detail .essay{font-family:var(--font-display);font-size:17px;line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.qa b{display:block;font-size:12px;color:var(--accent)}
+footer{margin-top:48px;text-align:center}
+@media (prefers-reduced-motion:no-preference){.view{animation:fade .25s ease}}
+@keyframes fade{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app">
+  <!-- ENTRY -->
+  <section class="view" id="v-entry">
+    <div class="hero">
+      <div class="stack">
+        <span class="eyebrow">국어 · 자서전 에세이 쓰기</span>
+        <h1>한 편의 시로 읽는<br>나의 일생</h1>
+        <p class="muted">지나온 시간을 나이별로 돌아보고, 앞으로의 삶을 마지막 나이까지 상상해 봅니다. 그 길 위에서 나를 비춰 줄 <b>인생시</b> 한 편을 골라, 왜 그 시가 나의 시인지 자서전 에세이로 써 봅시다.</p>
+        <div class="flow">
+          <div><b>1. 인생시 고르기</b>시 목록에서 한 편 선택</div>
+          <div><b>2. 찾아 읽기</b>전문을 찾아 읽고 첫 감상</div>
+          <div><b>3. 지나온 나</b>0세부터 지금까지</div>
+          <div><b>4. 다가올 나</b>마지막 나이까지 상상</div>
+          <div><b>5. 인생시인 이유</b>삶과 시를 연결하기</div>
+          <div><b>6. 자서전 쓰기</b>에세이 완성 후 제출</div>
+        </div>
+      </div>
+      <form class="panel stack" id="entryForm" autocomplete="off">
+        <h2>시작하기</h2>
+        <div><label class="lbl" for="inNo">학번</label><input type="text" id="inNo" inputmode="numeric" placeholder="예: 20315" maxlength="12"></div>
+        <div><label class="lbl" for="inName">이름</label><input type="text" id="inName" placeholder="예: 김하늘" maxlength="20"></div>
+        <p class="notice err" id="entryErr" hidden></p>
+        <button class="primary" type="submit">작성하러 가기 →</button>
+        <p class="hint">쓰던 내용은 이 기기에 자동으로 임시 저장됩니다. 같은 학번으로 다시 들어오면 이어서 쓸 수 있어요.</p>
+        <p class="notice" id="dbWarn" hidden>아직 제출 서버가 연결되지 않았습니다(선생님 설정 필요). 작성과 임시 저장은 계속할 수 있습니다.</p>
+      </form>
+    </div>
+    <footer><button class="ghost" id="toAdmin" type="button">관리자 페이지</button></footer>
+  </section>
+
+  <!-- WRITE -->
+  <section class="view" id="v-write" hidden>
+    <div class="stepbar">
+      <div class="who"><span id="whoLbl"></span><span class="saved" id="savedLbl">임시 저장됨</span></div>
+      <nav class="steps" id="steps" aria-label="단계"></nav>
+    </div>
+    <div id="stepBody"></div>
+    <div class="navrow">
+      <button id="prevBtn" type="button">← 이전 단계</button>
+      <button id="nextBtn" class="primary" type="button">다음 단계 →</button>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section class="view" id="v-done" hidden>
+    <div class="panel stack" style="max-width:560px;margin:48px auto;text-align:center;align-items:center">
+      <span class="eyebrow">제출 완료</span>
+      <h2 id="doneTitle"></h2>
+      <p class="muted" id="doneMsg"></p>
+      <div class="row" style="justify-content:center">
+        <button type="button" id="backEdit">다시 고쳐 쓰기</button>
+        <button type="button" class="primary" id="logout">처음 화면으로</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN LOGIN -->
+  <section class="view" id="v-adminLogin" hidden>
+    <form class="panel stack" id="adminForm" style="max-width:380px;margin:64px auto" autocomplete="off">
+      <span class="eyebrow">관리자</span>
+      <h2>관리자 페이지</h2>
+      <div><label class="lbl" for="adminPw">비밀번호</label><input type="password" id="adminPw" inputmode="numeric"></div>
+      <p class="notice err" id="adminErr" hidden>비밀번호가 맞지 않습니다.</p>
+      <div class="row"><button class="primary" type="submit">들어가기</button><button type="button" id="adminBack">돌아가기</button></div>
+    </form>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="view" id="v-admin" hidden>
+    <div class="stack">
+      <div class="row" style="justify-content:space-between">
+        <div><span class="eyebrow">관리자</span><h2>제출된 자서전 에세이</h2></div>
+        <div class="row"><button type="button" id="refreshBtn">새로고침</button><button type="button" id="csvBtn">엑셀(CSV) 내려받기</button><button type="button" id="adminOut">나가기</button></div>
+      </div>
+      <p class="hint" id="lastLoad"></p>
+      <p class="notice" id="adminNote" hidden></p>
+      <div class="stats" id="stats"></div>
+      <div class="panel stack" id="poemStats" hidden><h3>학생들이 고른 인생시</h3><div class="stack" id="poemBars" style="gap:6px"></div></div>
+      <input type="text" id="adminSearch" placeholder="학번, 이름, 시 제목으로 찾기">
+      <div class="tablewrap"><table>
+        <thead><tr><th>학번</th><th>이름</th><th>인생시</th><th>최종 나이</th><th>에세이 글자 수</th><th>제출 시각</th></tr></thead>
+        <tbody id="adminRows"></tbody>
+      </table></div>
+      <p class="hint" id="adminEmpty">아직 제출된 글이 없습니다. 학생이 제출하면 이 표에 바로 나타납니다.</p>
+      <div id="adminDetail"></div>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="modal" hidden><div class="dialog" role="dialog" aria-modal="true">
+  <h3 id="mTitle"></h3><p id="mBody" class="muted"></p>
+  <div class="row" style="justify-content:flex-end"><button type="button" id="mCancel">취소</button><button type="button" class="primary" id="mOk">확인</button></div>
+</div></div>
+
+<script>
+(() => {
+/* ===== 설정: 구글 Apps Script 웹 앱 주소를 따옴표 안에 붙여 넣으세요 ===== */
+const API_URL = "";
+/* ======================================================================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- 시 목록 ---------- */
+const POEMS = [
+ {id:"seosi",t:"서시",a:"윤동주",tag:"다짐",d:"부끄러움 없이 살고 싶다는 마음과, 주어진 길을 걸어가겠다는 다짐을 담은 시.",q:"나는 어떤 사람으로 살고 싶다고 다짐하고 있나요?"},
+ {id:"newroad",t:"새로운 길",a:"윤동주",tag:"일상",d:"어제도 오늘도 걷는 같은 길을 늘 새롭게 바라보는 마음.",q:"익숙한 하루를 새롭게 보는 순간은 언제인가요?"},
+ {id:"jahwasang",t:"자화상",a:"윤동주",tag:"자기 이해",d:"우물에 비친 자신을 미워하다가 가엾어하고 다시 그리워하는 마음.",q:"나는 나 자신을 어떤 눈으로 바라보고 있나요?"},
+ {id:"heundeul",t:"흔들리며 피는 꽃",a:"도종환",tag:"성장",d:"흔들림과 젖음도 꽃이 피어나는 과정의 일부라고 말해 주는 시.",q:"나를 흔들었지만 결국 자라게 한 일은 무엇인가요?"},
+ {id:"damjaengi",t:"담쟁이",a:"도종환",tag:"도전",d:"넘을 수 없어 보이는 벽 앞에서 서로 손잡고 천천히 오르는 담쟁이.",q:"내 앞의 벽은 무엇이고, 누구와 함께 넘고 싶나요?"},
+ {id:"pulkkot",t:"풀꽃",a:"나태주",tag:"자존감",d:"자세히, 오래 보아야 보이는 작은 존재의 아름다움.",q:"오래 보아야 보이는 나의 좋은 점은 무엇인가요?"},
+ {id:"kkot",t:"꽃",a:"김춘수",tag:"관계",d:"이름을 불러 줄 때 비로소 서로에게 의미가 되는 존재.",q:"나의 이름을 불러 준 사람, 내가 이름을 불러 주고 싶은 사람은 누구인가요?"},
+ {id:"susunhwa",t:"수선화에게",a:"정호승",tag:"위로",d:"외로움은 살아 있는 모든 존재가 함께 겪는 것이라고 다독이는 시.",q:"외로웠던 순간, 나를 견디게 한 것은 무엇이었나요?"},
+ {id:"bomgil",t:"봄길",a:"정호승",tag:"희망",d:"길이 끝난 곳에서도 스스로 길이 되어 걸어가는 사람.",q:"누군가에게 길이 되어 주는 사람이 된다면 어떤 모습일까요?"},
+ {id:"banggaek",t:"방문객",a:"정현종",tag:"만남",d:"한 사람을 만나는 일은 그 사람의 과거와 현재와 미래를 함께 만나는 일.",q:"내 삶에 찾아온 소중한 사람은 누구인가요?"},
+ {id:"kkotbong",t:"모든 순간이 꽃봉오리인 것을",a:"정현종",tag:"지금",d:"지나간 모든 순간이 꽃봉오리였음을 뒤늦게 깨닫는 마음.",q:"지금 이 순간을 더 소중히 여긴다면 무엇이 달라질까요?"},
+ {id:"neoege",t:"너에게 묻는다",a:"안도현",tag:"나눔",d:"누군가에게 한 번이라도 뜨거운 사람이었던 적이 있는지 묻는 짧은 시.",q:"나는 누구에게 따뜻한 사람이었나요? 앞으로는 어떨까요?"},
+ {id:"sky",t:"너의 하늘을 보아",a:"박노해",tag:"용기",d:"힘들고 지칠 때 고개를 들어 나만의 하늘을 보라고 건네는 격려.",q:"지칠 때 내가 올려다보는 ‘나의 하늘’은 무엇인가요?"},
+ {id:"gijeok",t:"새해 첫 기적",a:"반칠환",tag:"나다움",d:"빠르든 느리든 모두가 저마다의 속도로 같은 날에 도착한다는 시.",q:"남과 비교하지 않는 나만의 속도는 어떤 모습인가요?"},
+ {id:"galdae",t:"갈대",a:"신경림",tag:"삶의 이해",d:"산다는 것은 속으로 조용히 우는 것임을 알게 된 갈대의 이야기.",q:"겉으로 드러내지 못했던 마음이 있었나요?"},
+ {id:"notaken",t:"가지 않은 길",a:"로버트 프로스트",tag:"선택",d:"숲속 갈림길에서 한쪽 길을 고른 뒤, 그 선택이 삶을 바꾸었다고 돌아보는 시.",q:"내 삶의 갈림길은 언제였고, 앞으로 어떤 길을 고르고 싶나요?"},
+ {id:"umma",t:"엄마야 누나야",a:"김소월",tag:"가족",d:"사랑하는 가족과 강변에서 함께 살고 싶은 소박하고 맑은 꿈.",q:"내가 꿈꾸는 ‘함께 사는 행복’은 어떤 모습인가요?"},
+ {id:"cheongpodo",t:"청포도",a:"이육사",tag:"기다림",d:"청포도가 익어 가는 계절에 귀한 손님을 기다리는 설렘과 희망.",q:"내가 간절히 기다리는 미래의 ‘손님’은 무엇인가요?"},
+];
+const TAGS = ["전체", ...Array.from(new Set(POEMS.map(p => p.tag)))];
+
+const PAST = [
+ {id:"p1",age:"0 ~ 7세",title:"처음의 나",qs:["내가 태어났을 때 우리 가족에게는 어떤 일이 있었나요?","내 이름에 담긴 뜻은 무엇인가요?","가장 오래된 기억, 그때 좋아했던 것은?"]},
+ {id:"p2",age:"8 ~ 10세",title:"세상을 배우던 나",qs:["초등학교에 처음 갔던 날은 어땠나요?","이 시기에 가장 즐거웠던 일과 속상했던 일은?","나에게 영향을 준 사람이나 책, 놀이는?"]},
+ {id:"p3",age:"11 ~ 13세",title:"조금씩 자라던 나",qs:["처음으로 스스로 무언가를 해냈던 경험은?","친구 관계에서 배운 것은 무엇인가요?","이 시기의 나를 바꾼 사건이 있었나요?"]},
+ {id:"p4",age:"14 ~ 16세",title:"지금, 중학생인 나",qs:["요즘 나의 가장 큰 고민과 기쁨은?","지금 나에게 가장 소중한 사람과 물건은?","지금의 나를 한 문장으로 소개한다면?"]},
+];
+const FUTURE = [
+ {id:"f1",age:"17 ~ 19세",title:"고등학생이 된 나",qs:["어떤 공부와 활동에 마음을 쏟고 있을까요?","어떤 친구가 곁에 있으면 좋겠나요?","이 시기에 꼭 이루고 싶은 것은?"]},
+ {id:"f2",age:"20대",title:"어른의 문을 연 나",qs:["어디에서 무엇을 배우거나 일하고 있을까요?","처음 독립한 나의 하루는 어떤 모습일까요?","실패하거나 흔들릴 때 나는 어떻게 다시 일어설까요?"]},
+ {id:"f3",age:"30 ~ 40대",title:"자리를 잡아 가는 나",qs:["나는 어떤 일을 하며 누구와 함께 살고 있을까요?","내가 사회에 보탬이 되는 방식은 무엇일까요?","가장 자랑스러운 순간은 무엇일까요?"]},
+ {id:"f4",age:"50 ~ 60대",title:"돌아보며 나누는 나",qs:["지금까지의 경험을 누구에게 어떻게 나누고 있을까요?","새롭게 도전하고 싶은 일은?","젊은 시절의 나에게 해 주고 싶은 말은?"]},
+];
+const ROLES = ["나침반","위로","다짐","거울","응원","약속","질문","쉼터"];
+
+const STEPS = [
+ {id:"poems",label:"인생시 고르기"},
+ {id:"read",label:"찾아 읽기"},
+ {id:"past",label:"지나온 나"},
+ {id:"future",label:"다가올 나"},
+ {id:"reason",label:"인생시인 이유"},
+ {id:"essay",label:"자서전 쓰기"},
+];
+
+/* ---------- state ---------- */
+let S = null;        // current student's work
+let step = 0;
+let tagFilter = "전체";
+let adminPw = "";
+async function api(action, payload = {}){
+  if (!API_URL) throw {code:"no_server"};
+  let res;
+  try {
+    // Content-Type을 지정하지 않으면(text/plain) 브라우저 사전 요청 없이 Apps Script로 보낼 수 있습니다.
+    res = await fetch(API_URL, {method:"POST", body: JSON.stringify({action, ...payload})});
+  } catch(e){ throw {code:"network"}; }
+  let out;
+  try { out = await res.json(); } catch(e){ throw {code:"bad_response"}; }
+  if (!out.ok) throw {code: out.error || "server_error"};
+  return out;
+}
+const hasServer = !!API_URL;
+if (!hasServer) $("#dbWarn").hidden = false;
+
+function blank(no, name){
+  return {studentNo:no,name, poemId:"", custom:{t:"",a:""}, lines:"", firstFeel:"", searchNote:"",
+    past:{}, future:{}, finalAge:"", lastScene:"", epitaph:"",
+    reasonFirst:"", reasonNow:"", roles:[], reasonLine:"",
+    essayTitle:"", essayBody:"", savedAt:0, submittedAt:0};
+}
+const safeKey = no => String(no).trim().replace(/[^A-Za-z0-9_\-.~:@+]/g,"_").slice(0,60) || "unknown";
+const draftKey = no => "autobio-draft-" + safeKey(no);
+function loadDraft(no){ try { const r = localStorage.getItem(draftKey(no)); return r ? JSON.parse(r) : null; } catch(e){ return null; } }
+let saveTimer = null;
+function saveDraft(){
+  clearTimeout(saveTimer);
+  $("#savedLbl").textContent = "저장 중…";
+  saveTimer = setTimeout(() => {
+    S.savedAt = Date.now();
+    try { localStorage.setItem(draftKey(S.studentNo), JSON.stringify(S)); $("#savedLbl").textContent = "이 기기에 임시 저장됨"; }
+    catch(e){ $("#savedLbl").textContent = "임시 저장을 쓸 수 없는 환경입니다"; }
+  }, 500);
+}
+const poemOf = st => {
+  if (!st.poemId) return null;
+  if (st.poemId === "custom") return {id:"custom", t:st.custom.t || "(제목 미입력)", a:st.custom.a || "", tag:"직접 고른 시", d:"", q:"이 시가 지금 나에게 건네는 말은 무엇인가요?"};
+  return POEMS.find(p => p.id === st.poemId) || null;
+};
+const searchUrl = p => "https://search.naver.com/search.naver?query=" + encodeURIComponent(`${p.a} ${p.t} 시 전문`);
+
+/* ---------- views ---------- */
+function show(id){
+  document.querySelectorAll(".view").forEach(v => v.hidden = v.id !== "v-" + id);
+  window.scrollTo(0,0);
+}
+
+/* ---------- entry ---------- */
+$("#entryForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const no = $("#inNo").value.trim(), name = $("#inName").value.trim();
+  const err = $("#entryErr");
+  if (!no || !name){ err.textContent = "학번과 이름을 모두 입력해 주세요."; err.hidden = false; return; }
+  err.hidden = true;
+  let st = loadDraft(no);
+  if (st && st.name !== name) st = null;
+  if (hasServer) {
+    const btn = e.submitter || $("#entryForm button[type=submit]");
+    btn.disabled = true; btn.textContent = "불러오는 중…";
+    try {
+      const out = await api("load", {key: safeKey(no), name});
+      const w = out.work;
+      if (w && (!st || (w.savedAt || 0) > (st.savedAt || 0))) st = w;
+    } catch(e){}
+    btn.disabled = false; btn.textContent = "작성하러 가기 →";
+  }
+  S = Object.assign(blank(no, name), st || {});
+  S.studentNo = no; S.name = name;
+  step = 0;
+  startWrite();
+});
+
+function startWrite(){
+  $("#whoLbl").innerHTML = `<b>${esc(S.studentNo)} ${esc(S.name)}</b> 학생의 자서전`;
+  $("#savedLbl").textContent = S.submittedAt ? "제출한 적 있음 · 고쳐서 다시 제출할 수 있어요" : "이 기기에 임시 저장됨";
+  show("write");
+  renderStep();
+}
+
+function renderSteps(){
+  $("#steps").innerHTML = STEPS.map((s,i) =>
+    `<button type="button" data-i="${i}" class="${i===step?"on":""} ${isDone(i)?"done":""}"><span class="n">${i+1}</span> ${s.label}</button>`).join("");
+  $("#steps").querySelectorAll("button").forEach(b => b.onclick = () => { step = +b.dataset.i; renderStep(); });
+  const cur = $("#steps .on"); if (cur) cur.scrollIntoView({block:"nearest",inline:"center"});
+}
+function isDone(i){
+  const id = STEPS[i].id;
+  if (id==="poems") return !!S.poemId;
+  if (id==="read") return !!S.firstFeel.trim();
+  if (id==="past") return PAST.some(p => (S.past[p.id]?.text||"").trim());
+  if (id==="future") return !!S.finalAge;
+  if (id==="reason") return !!S.reasonNow.trim();
+  if (id==="essay") return S.essayBody.trim().length > 0;
+}
+
+function myPoemCard(withLink){
+  const p = poemOf(S);
+  if (!p) return `<div class="notice">아직 인생시를 고르지 않았어요. <button type="button" class="ghost" data-go="0">1단계에서 고르기</button></div>`;
+  return `<div class="mypoem"><div><span class="eyebrow">나의 인생시</span><div class="t">${esc(p.t)}</div><div class="muted" style="font-size:14px">${esc(p.a)}</div></div>
+   ${withLink && p.a ? `<a class="btn" href="${searchUrl(p)}" target="_blank" rel="noopener">시 전문 찾아보기 ↗</a>` : ""}</div>`;
+}
+
+function field(path, label, opts={}){
+  const v = get(path) ?? "";
+  const id = "f_" + path.replace(/\./g,"_");
+  const ph = opts.ph ? ` placeholder="${esc(opts.ph)}"` : "";
+  const inner = opts.input
+    ? `<input type="${opts.type||"text"}" id="${id}" data-f="${path}" value="${esc(v)}"${ph}${opts.type==="number"?' min="17" max="130"':''}>`
+    : `<textarea id="${id}" data-f="${path}"${ph} style="${opts.h?`min-height:${opts.h}px`:""}">${esc(v)}</textarea>`;
+  return `<div>${label?`<label class="lbl" for="${id}">${label}</label>`:""}${opts.hint?`<p class="hint" style="margin-bottom:6px">${opts.hint}</p>`:""}${inner}</div>`;
+}
+function get(path){ return path.split(".").reduce((o,k) => o==null?undefined:o[k], S); }
+function set(path, val){
+  const ks = path.split("."); let o = S;
+  ks.slice(0,-1).forEach(k => { if (typeof o[k] !== "object" || o[k]===null) o[k] = {}; o = o[k]; });
+  o[ks.at(-1)] = val;
+}
+
+function stageBlock(st, kind){
+  const base = `${kind}.${st.id}`;
+  const p = poemOf(S);
+  return `<div class="stage panel ${kind==="future"?"future":""}">
+    <div class="stack" style="gap:12px">
+      <div><span class="age">${st.age}</span><h3>${st.title}</h3>
+        <ul>${st.qs.map(q=>`<li>${q}</li>`).join("")}</ul></div>
+      ${field(base+".text","", {ph: kind==="past" ? "떠오르는 장면과 그때의 마음을 자유롭게 적어 보세요." : "상상한 모습을 구체적인 장면으로 적어 보세요.", h:120})}
+      <div class="grid2">
+        ${field(base+".word","이 시기를 한 단어로", {input:true, ph:"예: 호기심"})}
+        ${field(base+".poem", p ? `‘${esc(p.t)}’가 이 시기의 나에게 하는 말` : "인생시가 이 시기의 나에게 하는 말", {input:true, ph:"시의 구절이나 느낌을 연결해 보세요"})}
+      </div>
+    </div></div>`;
+}
+
+function renderStep(){
+  renderSteps();
+  const id = STEPS[step].id;
+  const body = $("#stepBody");
+  let h = "";
+  if (id === "poems") {
+    h = `<div class="stack">
+      <div><span class="eyebrow">1단계</span><h2>나의 인생시 고르기</h2>
+      <p class="muted">청소년의 성장에 힘이 되는 시들입니다. 제목과 소개를 읽고, 마음이 가는 시는 ‘전문 찾아보기’로 직접 읽어 보세요. 그중 <b>나의 인생시</b>라고 생각하는 시 한 편을 눌러 고릅니다.</p></div>
+      <div class="chips">${TAGS.map(t=>`<button type="button" class="chip ${t===tagFilter?"on":""}" data-tag="${t}">${t}</button>`).join("")}</div>
+      <div class="poems">${POEMS.filter(p => tagFilter==="전체"||p.tag===tagFilter).map(p=>`
+        <div class="poem panel ${S.poemId===p.id?"sel":""}" data-pick="${p.id}" role="button" tabindex="0" aria-pressed="${S.poemId===p.id}">
+          <span class="tag">${p.tag}</span><span class="t">${esc(p.t)}</span><span class="a">${esc(p.a)}</span><span class="d">${esc(p.d)}</span>
+          <a href="${searchUrl(p)}" target="_blank" rel="noopener" class="hint" data-nopick>전문 찾아보기 ↗</a>
+        </div>`).join("")}</div>
+      <div class="panel stack ${S.poemId==="custom"?"sel":""}" style="${S.poemId==="custom"?"border:2px solid var(--accent)":""}">
+        <h3>목록에 없는 시를 고르고 싶다면</h3>
+        <div class="grid2">
+          ${field("custom.t","시 제목",{input:true,ph:"예: 진달래꽃"})}
+          ${field("custom.a","시인",{input:true,ph:"예: 김소월"})}
+        </div>
+        <div><button type="button" id="pickCustom">${S.poemId==="custom"?"✓ 이 시를 인생시로 골랐어요":"이 시를 나의 인생시로 정하기"}</button></div>
+      </div></div>`;
+  }
+  if (id === "read") {
+    const p = poemOf(S);
+    h = `<div class="stack">
+      <div><span class="eyebrow">2단계</span><h2>인생시 찾아 읽고 첫 감상 남기기</h2>
+      <p class="muted">시의 전문을 찾아 소리 내어 천천히 두세 번 읽어 보세요. 교과서, 시집, 도서관, 검색을 활용할 수 있어요.</p></div>
+      ${myPoemCard(true)}
+      ${p && p.q ? `<div class="notice"><b>생각해 볼 질문</b> · ${esc(p.q)}</div>`:""}
+      ${field("lines","가장 마음에 남는 구절 옮겨 적기",{hint:"시 전체가 아니라, 나에게 가장 크게 다가온 한두 구절을 정확하게 옮겨 적어요.",h:100})}
+      ${field("firstFeel","처음 읽었을 때의 느낌",{hint:"어떤 장면이 떠올랐나요? 어떤 기분이 들었나요? 왜 이 구절이 마음에 남았나요?",h:140})}
+      ${field("searchNote","시인과 시에 대해 알게 된 것 (선택)",{hint:"시인의 삶, 시가 쓰인 배경, 시에 쓰인 낱말의 뜻 등",h:90})}
+    </div>`;
+  }
+  if (id === "past") {
+    h = `<div class="stack">
+      <div><span class="eyebrow">3단계</span><h2>지나온 나 돌아보기</h2>
+      <p class="muted">태어나서 지금까지를 나이별로 차례차례 돌아봅니다. 가족에게 물어보거나 사진을 보며 떠올려도 좋아요. 모든 질문에 답할 필요는 없어요.</p></div>
+      ${myPoemCard(false)}
+      <div class="timeline">${PAST.map(s=>stageBlock(s,"past")).join("")}</div></div>`;
+  }
+  if (id === "future") {
+    h = `<div class="stack">
+      <div><span class="eyebrow">4단계</span><h2>다가올 나 상상하기</h2>
+      <p class="muted">지금부터 내 삶의 마지막 나이까지를 상상하며 써 봅니다. 되고 싶은 직업뿐 아니라 어떤 사람으로 살고 싶은지 떠올려 보세요.</p></div>
+      ${myPoemCard(false)}
+      <div class="timeline">${FUTURE.map(s=>stageBlock(s,"future")).join("")}
+        <div class="stage panel future"><div class="stack" style="gap:12px">
+          <div><span class="age">마지막 나이</span><h3>삶의 마지막 장면</h3>
+          <ul><li>나는 몇 살까지 살고 싶나요?</li><li>삶의 마지막 날, 나는 어디에서 누구와 함께 있을까요?</li><li>사람들이 나를 어떤 사람으로 기억해 주면 좋겠나요?</li></ul></div>
+          <div class="grid2">${field("finalAge","나의 최종 나이",{input:true,type:"number",ph:"예: 90"})}<div></div></div>
+          ${field("lastScene","마지막 장면 그려 보기",{h:120,ph:"그날의 풍경, 곁에 있는 사람, 나의 마음을 적어 보세요."})}
+          ${field("epitaph","나의 묘비명 또는 남기고 싶은 한 문장",{input:true,ph:"예: 오래 보아 예쁜 사람, 여기 잠들다"})}
+        </div></div>
+      </div></div>`;
+  }
+  if (id === "reason") {
+    h = `<div class="stack">
+      <div><span class="eyebrow">5단계</span><h2>이 시가 나의 인생시인 이유</h2>
+      <p class="muted">처음부터 마지막 나이까지 삶 전체를 돌아본 지금, 인생시를 다시 한 번 읽어 보세요. 처음 골랐을 때와 생각이 달라졌나요?</p></div>
+      ${myPoemCard(true)}
+      ${S.lines ? `<div class="panel"><span class="eyebrow">내가 옮겨 적은 구절</span><p class="quote">${esc(S.lines)}</p></div>`:""}
+      ${field("reasonFirst","처음 이 시를 골랐던 이유",{h:100})}
+      ${field("reasonNow","삶 전체를 돌아본 뒤, 이 시가 나의 인생시인 이유",{hint:"지나온 나와 다가올 나의 어떤 순간이 이 시와 닿아 있나요? 구체적인 경험을 들어 써 보세요.",h:160})}
+      <div><span class="lbl">이 시는 내 삶에서 어떤 역할을 하나요? (여러 개 고를 수 있어요)</span>
+        <div class="roles">${ROLES.map(r=>`<label><input type="checkbox" data-role="${r}" ${S.roles.includes(r)?"checked":""}> ${r}</label>`).join("")}</div></div>
+      ${field("reasonLine","이 시를 한 문장으로 다시 써 본다면",{input:true,ph:"예: 흔들려도 괜찮아, 그게 피어나는 중이라는 뜻이니까."})}
+    </div>`;
+  }
+  if (id === "essay") {
+    const p = poemOf(S);
+    const note = (k,v) => v && String(v).trim() ? `<div><b>${k}</b>${esc(v)}</div>` : "";
+    h = `<div class="stack">
+      <div><span class="eyebrow">6단계</span><h2>나의 인생시 자서전 에세이</h2>
+      <p class="muted">앞에서 쓴 메모를 바탕으로 한 편의 글을 완성합니다. 인생시가 글 전체를 꿰는 실이 되도록 써 보세요.</p></div>
+      <div class="panel stack" style="gap:8px"><h3>글의 짜임 안내</h3>
+        <p class="hint"><b>처음</b> · 나의 인생시를 소개하고, 처음 만났을 때의 느낌을 씁니다.</p>
+        <p class="hint"><b>중간 1</b> · 지나온 삶의 중요한 장면들을 시의 구절과 연결해 씁니다.</p>
+        <p class="hint"><b>중간 2</b> · 앞으로의 삶과 마지막 장면을 상상하며, 그때도 이 시가 어떤 의미일지 씁니다.</p>
+        <p class="hint"><b>끝</b> · 이 시를 인생시로 정한 이유와 나에게 하는 다짐으로 마무리합니다.</p>
+        <div><button type="button" id="scaffold">글의 짜임 틀 넣기</button></div>
+      </div>
+      <details class="notes"><summary>앞 단계에서 쓴 메모 보기</summary><div class="body">
+        ${p?`<div><b>인생시</b>${esc(p.t)} · ${esc(p.a)}</div>`:""}
+        ${note("마음에 남는 구절",S.lines)}${note("첫 감상",S.firstFeel)}
+        ${PAST.map(s=>note(`${s.age} ${s.title}`, [S.past[s.id]?.word, S.past[s.id]?.text, S.past[s.id]?.poem].filter(Boolean).join("\n"))).join("")}
+        ${FUTURE.map(s=>note(`${s.age} ${s.title}`, [S.future[s.id]?.word, S.future[s.id]?.text, S.future[s.id]?.poem].filter(Boolean).join("\n"))).join("")}
+        ${note(`마지막 나이 ${S.finalAge?S.finalAge+"세":""}`, [S.lastScene,S.epitaph].filter(Boolean).join("\n"))}
+        ${note("인생시인 이유",[S.reasonFirst,S.reasonNow,S.reasonLine].filter(Boolean).join("\n"))}
+      </div></details>
+      ${field("essayTitle","에세이 제목",{input:true,ph:"예: 흔들리며 피는 나의 열다섯"})}
+      <div><label class="lbl" for="f_essayBody">본문</label>
+        <textarea id="f_essayBody" data-f="essayBody" class="essay-area" placeholder="나의 인생시와 함께 걸어온 길, 걸어갈 길을 써 보세요.">${esc(S.essayBody)}</textarea></div>
+      <div class="counter" id="counter"></div>
+      <p class="notice err" id="submitErr" hidden></p>
+    </div>`;
+  }
+  body.innerHTML = h;
+  bindStep(id);
+  $("#prevBtn").disabled = step === 0;
+  $("#nextBtn").textContent = step === STEPS.length-1 ? "제출하기" : "다음 단계 →";
+}
+
+function bindStep(id){
+  const body = $("#stepBody");
+  body.querySelectorAll("[data-f]").forEach(el => el.addEventListener("input", () => {
+    set(el.dataset.f, el.value); saveDraft();
+    if (el.dataset.f === "essayBody") updateCounter();
+  }));
+  body.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { step = +b.dataset.go; renderStep(); });
+  if (id === "poems") {
+    body.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => { tagFilter = b.dataset.tag; renderStep(); });
+    body.querySelectorAll("[data-pick]").forEach(c => {
+      const pick = e => { if (e.target.closest("[data-nopick]")) return; S.poemId = c.dataset.pick; saveDraft(); renderStep(); };
+      c.addEventListener("click", pick);
+      c.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); pick(e); } });
+    });
+    $("#pickCustom").onclick = () => {
+      if (!S.custom.t.trim()){ $("#f_custom_t").focus(); return; }
+      S.poemId = "custom"; saveDraft(); renderStep();
+    };
+  }
+  if (id === "reason") {
+    body.querySelectorAll("[data-role]").forEach(cb => cb.onchange = () => {
+      S.roles = Array.from(body.querySelectorAll("[data-role]:checked")).map(x => x.dataset.role); saveDraft();
+    });
+  }
+  if (id === "essay") {
+    updateCounter();
+    $("#scaffold").onclick = () => {
+      const p = poemOf(S);
+      const tpl = `[처음] 나의 인생시${p?` ‘${p.t}’`:""}를 만난 이야기\n\n\n[중간 1] 지나온 나와 인생시\n\n\n[중간 2] 다가올 나와 인생시\n\n\n[끝] 이 시가 나의 인생시인 이유와 다짐\n\n`;
+      const ta = $("#f_essayBody");
+      S.essayBody = S.essayBody.trim() ? S.essayBody + "\n\n" + tpl : tpl;
+      ta.value = S.essayBody; saveDraft(); updateCounter(); ta.focus();
+    };
+  }
+}
+function updateCounter(){
+  const t = S.essayBody || "";
+  const chars = t.replace(/\s/g,"").length;
+  const withSp = t.length;
+  const sheets = Math.ceil(withSp/200);
+  $("#counter").innerHTML = `<span>공백 제외 <b>${chars.toLocaleString()}</b>자</span><span>공백 포함 <b>${withSp.toLocaleString()}</b>자</span><span>200자 원고지 약 <b>${sheets}</b>매</span><span>최소 <b>300</b>자 이상 써야 제출할 수 있어요</span>`;
+}
+
+$("#prevBtn").onclick = () => { if (step>0){ step--; renderStep(); } };
+$("#nextBtn").onclick = () => {
+  if (step < STEPS.length-1){ step++; renderStep(); return; }
+  trySubmit();
+};
+
+/* ---------- modal ---------- */
+function confirmBox(title, body, okLabel="확인", danger=false){
+  return new Promise(res => {
+    $("#mTitle").textContent = title; $("#mBody").textContent = body;
+    const ok = $("#mOk"); ok.textContent = okLabel; ok.className = danger ? "danger" : "primary";
+    $("#mCancel").hidden = false;
+    $("#modal").hidden = false; ok.focus();
+    const done = v => { $("#modal").hidden = true; ok.onclick = null; $("#mCancel").onclick = null; res(v); };
+    ok.onclick = () => done(true); $("#mCancel").onclick = () => done(false);
+  });
+}
+
+/* ---------- submit ---------- */
+async function trySubmit(){
+  const err = $("#submitErr");
+  const show = m => { err.textContent = m; err.hidden = false; err.scrollIntoView({block:"center"}); };
+  err.hidden = true;
+  const p = poemOf(S);
+  if (!p) return show("1단계에서 나의 인생시를 먼저 골라 주세요.");
+  if (!S.essayTitle.trim()) return show("에세이 제목을 입력해 주세요.");
+  if (S.essayBody.replace(/\s/g,"").length < 300) return show("본문을 공백 제외 300자 이상 써 주세요.");
+  if (!hasServer) return show("아직 제출 서버가 연결되지 않았습니다. 선생님께 알려 주세요. 쓴 내용은 이 기기에 임시 저장되어 있습니다.");
+  const ok = await confirmBox("자서전 에세이를 제출할까요?", `${S.studentNo} ${S.name} · 인생시 ‘${p.t}’. 제출한 뒤에도 같은 학번과 이름으로 들어와 고쳐서 다시 제출할 수 있습니다.`, "제출하기");
+  if (!ok) return;
+  const btn = $("#nextBtn"); btn.disabled = true; btn.textContent = "제출 중…";
+  try {
+    const key = safeKey(S.studentNo);
+    const now = Date.now();
+    S.submittedAt = now; S.savedAt = now;
+    const work = JSON.parse(JSON.stringify(S));
+    const summary = {studentNo:S.studentNo, name:S.name, poemId:S.poemId, poemTitle:p.t, poemAuthor:p.a,
+      finalAge:S.finalAge, essayTitle:S.essayTitle, chars:S.essayBody.replace(/\s/g,"").length, submittedAt:now};
+    await api("submit", {key, summary, work});
+    try { localStorage.setItem(draftKey(S.studentNo), JSON.stringify(S)); } catch(e){}
+    $("#doneTitle").textContent = `‘${S.essayTitle}’ 제출을 마쳤어요`;
+    $("#doneMsg").textContent = `${S.studentNo} ${S.name} 학생의 자서전 에세이가 선생님께 전달되었습니다. 나의 인생시 ‘${p.t}’와 함께한 이 글이, 앞으로의 삶에서도 길잡이가 되기를 바랍니다.`;
+    show_done();
+  } catch(e){
+    S.submittedAt = 0;
+    show(e && e.code === "too_long" ? "글이 너무 길어 저장하지 못했습니다. 메모나 본문을 조금 줄여 주세요." : "제출하지 못했습니다. 인터넷 연결을 확인하고 다시 ‘제출하기’를 눌러 주세요. 쓴 내용은 임시 저장되어 있습니다.");
+  } finally { btn.disabled = false; btn.textContent = "제출하기"; }
+}
+function show_done(){ show("done"); }
+$("#backEdit").onclick = () => { startWrite(); };
+$("#logout").onclick = () => { S = null; $("#inNo").value = ""; $("#inName").value = ""; show("entry"); };
+
+/* ---------- admin ---------- */
+let rows = [];
+$("#toAdmin").onclick = () => { show("adminLogin"); $("#adminPw").value = ""; $("#adminErr").hidden = true; $("#adminPw").focus(); };
+$("#adminBack").onclick = () => show("entry");
+$("#adminForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#adminErr");
+  err.hidden = true;
+  if (!hasServer){ err.textContent = "제출 서버 주소(API_URL)가 아직 설정되지 않았습니다."; err.hidden = false; return; }
+  const pw = $("#adminPw").value;
+  try { await api("login", {password: pw}); }
+  catch(x){ err.textContent = x.code === "bad_password" ? "비밀번호가 맞지 않습니다." : "서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요."; err.hidden = false; return; }
+  adminPw = pw;
+  try { sessionStorage.setItem("autobio-admin-pw", pw); } catch(e){}
+  openAdmin();
+});
+$("#adminOut").onclick = () => {
+  try { sessionStorage.removeItem("autobio-admin-pw"); } catch(e){}
+  adminPw = ""; rows = [];
+  $("#adminDetail").innerHTML = ""; show("entry");
+};
+$("#refreshBtn").onclick = () => loadAdmin();
+
+function openAdmin(){ show("admin"); renderAdmin(); loadAdmin(); }
+async function loadAdmin(){
+  const note = $("#adminNote"), btn = $("#refreshBtn");
+  btn.disabled = true; btn.textContent = "불러오는 중…";
+  try {
+    const out = await api("list", {password: adminPw});
+    rows = (out.rows || []).map(r => ({key:r.key, poemTitle:r.poemTitle, poemAuthor:r.poemAuthor, chars:r.chars,
+      studentNo:r.work.studentNo, name:r.work.name, finalAge:r.work.finalAge, essayTitle:r.work.essayTitle,
+      submittedAt:r.work.submittedAt, work:r.work}));
+    rows.sort((a,b) => String(a.studentNo).localeCompare(String(b.studentNo), "ko", {numeric:true}));
+    note.hidden = true;
+    $("#lastLoad").textContent = "마지막으로 불러온 시각 " + new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"});
+  } catch(e){
+    if (e.code === "bad_password"){ $("#adminOut").onclick(); return; }
+    note.textContent = "제출 목록을 불러오지 못했습니다. ‘새로고침’을 눌러 다시 시도해 주세요."; note.hidden = false;
+  } finally { btn.disabled = false; btn.textContent = "새로고침"; }
+  renderAdmin();
+}
+const fmt = t => t ? new Date(t).toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "";
+$("#adminSearch").addEventListener("input", renderAdmin);
+function renderAdmin(){
+  const q = $("#adminSearch").value.trim().toLowerCase();
+  const list = rows.filter(r => !q || [r.studentNo,r.name,r.poemTitle,r.poemAuthor,r.essayTitle].join(" ").toLowerCase().includes(q));
+  const avg = rows.length ? Math.round(rows.reduce((s,r)=>s+(r.chars||0),0)/rows.length) : 0;
+  const ages = rows.map(r => +r.finalAge).filter(Boolean);
+  $("#stats").innerHTML = `
+    <div class="stat"><div class="v">${rows.length}</div><div class="k">제출한 학생</div></div>
+    <div class="stat"><div class="v">${avg.toLocaleString()}</div><div class="k">평균 글자 수(공백 제외)</div></div>
+    <div class="stat"><div class="v">${ages.length?Math.round(ages.reduce((a,b)=>a+b,0)/ages.length):"–"}</div><div class="k">평균 최종 나이</div></div>`;
+  const counts = {};
+  rows.forEach(r => { const k = `${r.poemTitle} · ${r.poemAuthor||""}`; counts[k] = (counts[k]||0)+1; });
+  const ent = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max = ent.length ? ent[0][1] : 1;
+  $("#poemStats").hidden = !ent.length;
+  $("#poemBars").innerHTML = ent.map(([k,v]) => `<div class="bar"><span style="min-width:0;flex:0 0 min(46%,240px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(k)}</span><span class="b" style="width:${Math.max(6,v/max*40)}%"></span><b style="font-variant-numeric:tabular-nums">${v}명</b></div>`).join("");
+  $("#adminRows").innerHTML = list.map((r,i) => `<tr data-i="${rows.indexOf(r)}" tabindex="0"><td class="num">${esc(r.studentNo)}</td><td>${esc(r.name)}</td><td>${esc(r.poemTitle)} <span class="muted">${esc(r.poemAuthor)}</span></td><td class="num">${r.finalAge?esc(r.finalAge)+"세":""}</td><td class="num">${(r.chars||0).toLocaleString()}</td><td class="num">${fmt(r.submittedAt)}</td></tr>`).join("");
+  $("#adminEmpty").hidden = rows.length > 0;
+  $("#adminRows").querySelectorAll("tr").forEach(tr => {
+    const open = () => openDetail(rows[+tr.dataset.i]);
+    tr.onclick = open; tr.onkeydown = e => { if (e.key==="Enter") open(); };
+  });
+}
+async function openDetail(r){
+  const box = $("#adminDetail");
+  box.innerHTML = `<div class="panel"><p class="muted">불러오는 중…</p></div>`;
+  box.scrollIntoView({block:"start"});
+  const w = r.work;
+  if (!w){ box.innerHTML = `<div class="panel"><p class="notice err">글을 불러오지 못했습니다.</p></div>`; return; }
+  const qa = (k,v) => v && String(v).trim() ? `<div class="qa"><b>${k}</b><div class="txt">${esc(v)}</div></div>` : "";
+  const stage = (s,o) => { const x = o[s.id]||{}; return (x.text||x.word||x.poem) ? `<div class="qa"><b>${s.age} · ${s.title}${x.word?` — “${esc(x.word)}”`:""}</b><div class="txt">${esc(x.text||"")}</div>${x.poem?`<div class="hint">인생시와 연결: ${esc(x.poem)}</div>`:""}</div>` : ""; };
+  box.innerHTML = `<article class="panel detail">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div class="grow"><span class="eyebrow">${esc(w.studentNo)} ${esc(w.name)} · ${fmt(w.submittedAt)} 제출</span><h2>${esc(w.essayTitle)}</h2>
+      <p class="muted">인생시 ‘${esc(r.poemTitle)}’ ${esc(r.poemAuthor)}</p></div>
+      <div class="row"><button type="button" id="delBtn" class="danger">삭제</button><button type="button" id="closeDetail">닫기</button></div>
+    </div>
+    <div class="sec"><h3>자서전 에세이</h3><div class="essay">${esc(w.essayBody)}</div><p class="hint">공백 제외 ${(r.chars||0).toLocaleString()}자 · 200자 원고지 약 ${Math.ceil((w.essayBody||"").length/200)}매</p></div>
+    <div class="sec"><h3>인생시 읽기</h3>${qa("마음에 남는 구절",w.lines)}${qa("첫 감상",w.firstFeel)}${qa("알게 된 것",w.searchNote)}</div>
+    <div class="sec"><h3>지나온 나</h3>${PAST.map(s=>stage(s,w.past||{})).join("") || '<p class="hint">작성하지 않음</p>'}</div>
+    <div class="sec"><h3>다가올 나</h3>${FUTURE.map(s=>stage(s,w.future||{})).join("")}
+      ${qa(`마지막 나이${w.finalAge?` · ${esc(w.finalAge)}세`:""}`, w.lastScene)}${qa("묘비명",w.epitaph)}</div>
+    <div class="sec"><h3>인생시인 이유</h3>${qa("처음 고른 이유",w.reasonFirst)}${qa("삶 전체를 돌아본 뒤",w.reasonNow)}
+      ${w.roles&&w.roles.length?`<div class="qa"><b>시의 역할</b><div>${w.roles.map(esc).join(", ")}</div></div>`:""}${qa("한 문장으로",w.reasonLine)}</div>
+  </article>`;
+  $("#closeDetail").onclick = () => { box.innerHTML = ""; };
+  $("#delBtn").onclick = async () => {
+    if (!await confirmBox("이 글을 삭제할까요?", `${w.studentNo} ${w.name} 학생의 제출물이 완전히 삭제되며 되돌릴 수 없습니다.`, "삭제", true)) return;
+    try {
+      await api("delete", {password: adminPw, key: r.key});
+      box.innerHTML = "";
+      loadAdmin();
+    } catch(e){ box.insertAdjacentHTML("afterbegin", `<p class="notice err">삭제하지 못했습니다. 잠시 후 다시 시도해 주세요.</p>`); }
+  };
+}
+
+$("#csvBtn").onclick = async () => {
+  const btn = $("#csvBtn");
+  if (!rows.length) { $("#adminNote").textContent = "내려받을 제출물이 없습니다."; $("#adminNote").hidden = false; return; }
+  btn.disabled = true; btn.textContent = "만드는 중…";
+  try {
+    const works = rows.map(r => r.work);
+    works.sort((a,b) => String(a.studentNo).localeCompare(String(b.studentNo),"ko",{numeric:true}));
+    const cell = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
+    const head = ["학번","이름","인생시","시인","마음에 남는 구절","첫 감상",
+      ...PAST.map(s=>s.age+" "+s.title), ...FUTURE.map(s=>s.age+" "+s.title),
+      "최종 나이","마지막 장면","묘비명","처음 고른 이유","인생시인 이유","시의 역할","한 문장","에세이 제목","에세이 본문","제출 시각"];
+    const lines = works.map(w => { const p = poemOf(w) || {t:"",a:""}; return [
+      w.studentNo,w.name,p.t,p.a,w.lines,w.firstFeel,
+      ...PAST.map(s=>{const x=(w.past||{})[s.id]||{};return [x.word,x.text,x.poem].filter(Boolean).join(" / ");}),
+      ...FUTURE.map(s=>{const x=(w.future||{})[s.id]||{};return [x.word,x.text,x.poem].filter(Boolean).join(" / ");}),
+      w.finalAge,w.lastScene,w.epitaph,w.reasonFirst,w.reasonNow,(w.roles||[]).join(", "),w.reasonLine,w.essayTitle,w.essayBody,
+      w.submittedAt?new Date(w.submittedAt).toLocaleString("ko-KR"):""].map(cell).join(","); });
+    const csv = "﻿" + [head.map(cell).join(","), ...lines].join("\r\n");
+    const url = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    const a = document.createElement("a");
+    a.href = url; a.download = "인생시_자서전_제출목록.csv";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  } catch(e){
+    $("#adminNote").textContent = "파일을 만들지 못했습니다. 잠시 후 다시 시도해 주세요."; $("#adminNote").hidden = false;
+  } finally { btn.disabled = false; btn.textContent = "엑셀(CSV) 내려받기"; }
+};
+
+let savedPw = ""; try { savedPw = sessionStorage.getItem("autobio-admin-pw") || ""; } catch(e){}
+if (savedPw) { adminPw = savedPw; openAdmin(); }
+})();
+</script>
+</body>
+</html>
